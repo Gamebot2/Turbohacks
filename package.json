@@ -1,0 +1,11 @@
+{
+	"name": "Turbohacks",
+	"version": "1.0.0",
+	"description": "The best fucking bot in town",
+	"main": "bot.js",
+	"author": "Ansh Jain",
+	"dependencies": {
+		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+		"winston": "^3.2.1"
+	}
+}
