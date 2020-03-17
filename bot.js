@@ -33,6 +33,8 @@ client.on('message', message => {
         commands.push("+ansh: Insults Justin\n");
         commands.push("+megamoto: Sends all the moto moto emojis\n");
         commands.push("+headout: Sends the ight imma head out gif\n");
+        commands.push("+insult @user: Insults the selected user\n");
+        commands.push("+botclean: Cleans all bot messages and commands from channel\n");
 
         var commandString = "";
         for(i = 0; i < commands.length; i++) {
