@@ -1,5 +1,5 @@
-# Turbohacks
-Discord Bot of legend
+![Banner](/assets/Banner.png)
+Discord bot of legend
 
 # How to use
 Make sure you have node and npm installed. Clone the repostiory and run "npm install" to get all the dependencies and stuff.
