@@ -27,15 +27,26 @@ client.on('message', message => {
 
     //Help command
     if(command === 'help') {
+
+        var commands = ["+noice: Sends a noice message\n"];
+        commands.push("+server: Sends server information\n");
+        commands.push("+ansh: Insults Justin\n");
+        commands.push("+megamoto: Sends all the moto moto emojis\n");
+        commands.push("+headout: Sends the ight imma head out gif\n");
+
+        var commandString = "";
+        for(i = 0; i < commands.length; i++) {
+            commandString = commandString + commands[i];
+        }
+
         //Create embed help explanation and send it
         message.channel.send({embed: {
           color: 0x999999,
-          description: "Turbohacks Commands!",
           title: "Turbohacks Help",
           url: "https://www.github.com/Gamebot3/Turbohacks",
           fields: [{
             name: "Commands",
-            value: "+noice: Sends a noice message\n+server: Server Information\n+ansh: Insults Justin"
+            value: commandString
           }],
         }});    
     }
@@ -53,7 +64,11 @@ client.on('message', message => {
         message.channel.send('Justin is a dumbass.');
     }
     if (command === `headout`) {
-        message.channel.send('https://tenor.com/view/ight-imma-head-out-spongebob-imma-head-out-ima-head-out-gif-14902967');
+        const attachment = new Discord.MessageAttachment('https://anshjainpublic.s3.us-east-2.amazonaws.com/headout.gif');
+        message.channel.send(attachment);
+    }
+    if (command === 'megamoto') {
+        message.channel.send('<:big:689542236878274608> <:chunky:689542818410266726> <:spunky:689543031967186944>')
     }
 
     //botclean command: deletes all bot messages from the channel
@@ -61,12 +76,27 @@ client.on('message', message => {
         message.channel.messages.fetch()
           .then(messages => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`)).array();
+            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")).array();
             //console.log(filteredMessages[0]);
             for(i = 0; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
             }
             message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands with command '+botclean'.");
+        })
+        .catch(console.error);
+    }
+
+    //buttclean: different way of doing botclean
+    if (command == 'buttclean') {
+        message.channel.messages.fetch()
+          .then(messages => {
+            console.log(`${messages.filter(m => m.author.bot).size} messages`);
+            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")).array();
+            //console.log(filteredMessages[0]);
+            for(i = 0; i < filteredMessages.length; i++) {
+                filteredMessages[i].delete();
+            }
+            message.channel.send("Deleted " + filteredMessages.length + " butt messages and commands with command '+buttclean'.");
         })
         .catch(console.error);
     }
