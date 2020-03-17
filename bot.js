@@ -57,7 +57,28 @@ client.on('message', message => {
     message.channel.send('<:Thirst:689204786083659776>');
     }
 
+    //botclean command: deletes all bot messages from the channel
+    if (command == 'botclean') {
+        message.channel.messages.fetch()
+          .then(messages => {
+            console.log(`${messages.filter(m => m.author.bot).size} messages`);
+            filteredMessages = messages.filter(m => m.author.bot).array();
+            //console.log(filteredMessages[0]);
+            for(i = 0; i < filteredMessages.length; i++) {
+                filteredMessages[i].delete();
+            }
+            message.channel.send("Deleted " + filteredMessages.length + " bot messages.");
+        })
+        .catch(console.error);
+    }
+
+    //Insult command: insults the mentioned user
     if (command === 'insult') {
+
+        if(!message.mentions.users.size) {
+            return message.channel.send('Insult whom?');
+        }
+
         var insults = ["You're slow."];
         insults.push("I do not consider you a vulture, but something a vulture would eat.");
         insults.push("People clap when they see you. They clap their hands over their eyes.");
@@ -79,9 +100,6 @@ client.on('message', message => {
         insults.push("I never forget a face, but I'll make an exception for you.");
         insults.push("Your mom is so fat she clogged a black hole.");
 
-        if(!message.mentions.users.size) {
-            return message.channel.send('Insult whom?');
-        }
         const taggedUser = message.mentions.users.first();
 
         message.channel.send(`<@${taggedUser.id}>` + ` ` + insults[Math.floor(Math.random() * insults.length)]);
