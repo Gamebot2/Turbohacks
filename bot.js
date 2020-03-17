@@ -62,12 +62,12 @@ client.on('message', message => {
         message.channel.messages.fetch()
           .then(messages => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot).array();
+            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`)).array();
             //console.log(filteredMessages[0]);
             for(i = 0; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
             }
-            message.channel.send("Deleted " + filteredMessages.length + " bot messages.");
+            message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands.");
         })
         .catch(console.error);
     }
