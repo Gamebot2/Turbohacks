@@ -8,11 +8,18 @@ client.once('ready', () => {
 
 client.on('message', message => {
 
+    //Shutting up the dad bot
     if(message.author.username === 'Dad Bot') {
         message.delete();
         message.channel.send(`Fuck off Margo I deleted your message`);
     }
 
+    //Thirsty emoji auto-send
+    if (message.content.includes("thirsty") || message.content.includes('Thirsty')) {
+    message.channel.send('<:Thirst:689204786083659776>');
+    }
+
+    //Don't respond to any other bot messages
     if (message.author.bot) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
@@ -43,18 +50,10 @@ client.on('message', message => {
         message.channel.send(`Server name: ${message.guild.name}\nTotal Members: ${message.guild.memberCount}`);
     }
     if (command === `ansh`) {
-    message.channel.send('Justin is a dumbass.');
-    }
-    if (message.content === 'u can suk it') {
-    message.channel.send('Like ur mom sucked this last night?');
+        message.channel.send('Justin is a dumbass.');
     }
     if (command === `headout`) {
-    message.channel.send('https://tenor.com/view/ight-imma-head-out-spongebob-imma-head-out-ima-head-out-gif-14902967');
-    }
-
-    if (message.content.includes("thirsty") || message.content.includes('Thirsty')) {
-    //console.log("yay");
-    message.channel.send('<:Thirst:689204786083659776>');
+        message.channel.send('https://tenor.com/view/ight-imma-head-out-spongebob-imma-head-out-ima-head-out-gif-14902967');
     }
 
     //botclean command: deletes all bot messages from the channel
@@ -67,7 +66,7 @@ client.on('message', message => {
             for(i = 0; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
             }
-            message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands.");
+            message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands with command '+botclean'.");
         })
         .catch(console.error);
     }
@@ -78,7 +77,6 @@ client.on('message', message => {
         if(!message.mentions.users.size) {
             return message.channel.send('Insult whom?');
         }
-
         var insults = ["You're slow."];
         insults.push("I do not consider you a vulture, but something a vulture would eat.");
         insults.push("People clap when they see you. They clap their hands over their eyes.");
@@ -105,9 +103,9 @@ client.on('message', message => {
         message.channel.send(`<@${taggedUser.id}>` + ` ` + insults[Math.floor(Math.random() * insults.length)]);
     }
 
-    if (message.content === 'Send emojis') {
-    console.log(`${message.guild.emojis}`);
-    }
+    // if (message.content === 'Send emojis') {
+    //     console.log(`${message.guild.emojis}`);
+    // }
 });
 
 client.login(token);
