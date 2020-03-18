@@ -35,6 +35,7 @@ client.on('message', message => {
         commands.push("+headout: Sends the ight imma head out gif\n");
         commands.push("+insult @user: Insults the selected user\n");
         commands.push("+botclean: Cleans all bot messages and commands from channel\n");
+        commands.push("+prune {n}: Deletes the last n messages from the channel\n");
 
         var commandString = "";
         for(i = 0; i < commands.length; i++) {
@@ -117,7 +118,7 @@ client.on('message', message => {
         insults.push("In the land of the witless, you would be king.")
         insults.push("You egg.");
         insults.push("You sir, are the reason God created the middle finger.");
-        insults.push("Lick my balls");
+        insults.push("Lick my balls.");
         insults.push("Sometimes I need what only you can provide. Your absence.");
         insults.push("It is impossible to underestimate you.");
         insults.push("I'm jealous of all the people who haven't met you.");
@@ -133,6 +134,17 @@ client.on('message', message => {
         const taggedUser = message.mentions.users.first();
 
         message.channel.send(`<@${taggedUser.id}>` + ` ` + insults[Math.floor(Math.random() * insults.length)]);
+    }
+
+    //Prune command (deletes the last n messages from the channel)
+    if(command === 'prune') {
+        var amount = parseInt(args[0]);
+        if(isNaN(amount)) {
+            return message.reply('That isn\'t a valid number moron.');
+        } else if (amount < 2 || amount > 100) {
+            return message.reply('Make sure the number you enter is between 2 and 100.');
+        }
+        message.channel.bulkDelete(amount + 1);
     }
 
     // if (message.content === 'Send emojis') {

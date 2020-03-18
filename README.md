@@ -26,3 +26,4 @@ Simply open a command prompt and run the command "node bot.js" to get the bot on
 * headout: Sends the "ight imma head out" gif from Spongebob
 * insult @user: Insults the mentioned user
 * botclean: Cleans all bot messages and commands from the channel
+* prune {n}: Deletes the last n messages from the channel
