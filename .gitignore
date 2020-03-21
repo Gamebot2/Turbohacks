@@ -1,2 +1,4 @@
 config.json
 deploy.sh
+deploy2.sh
+TurbohacksKeyPair.pem
