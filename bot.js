@@ -65,7 +65,7 @@ client.on('message', message => {
     }
     if (command === `ansh`) {
         message.channel.send('Justin is a dumbass.');
-        message.channel.send('Parker is not a dumbass.');
+        message.channel.send('Ansh is the best man alive.');
     }
     if (command === `headout`) {
         const attachment = new Discord.MessageAttachment('https://anshjainpublic.s3.us-east-2.amazonaws.com/headout.gif');
