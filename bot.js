@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const { prefix, token } = require('./config.json');
+var isReady = true;
 
 client.once('ready', () => {
     console.log('Ready!');
@@ -36,6 +37,7 @@ client.on('message', message => {
         commands.push("+insult @user: Insults the selected user\n");
         commands.push("+botclean: Cleans all bot messages and commands from channel\n");
         commands.push("+prune {n}: Deletes the last n messages from the channel\n");
+        commands.push("+horn: plays an airhorn sound in the voice channel\n");
 
         var commandString = "";
         for(i = 0; i < commands.length; i++) {
@@ -72,6 +74,21 @@ client.on('message', message => {
     }
     if (command === 'megamoto') {
         message.channel.send('<:big:689542236878274608> <:chunky:689542818410266726> <:spunky:689543031967186944>')
+    }
+    if (isReady && command === 'horn') {
+        isReady = false;
+        console.log(client.channels);
+        var voiceChannel = message.member.voice.channel;
+        voiceChannel.join().then(connection => {
+            //voiceChannel.leave();
+            const dispatcher = connection.play('./sounds/mlg-airhorn.mp3', { volume: 0.3 });
+            dispatcher.on("end", end => {
+                console.log('Ended');
+                voiceChannel.leave();
+            });
+        })
+        .catch(console.error);
+        isReady = true;
     }
 
     //botclean command: deletes all bot messages from the channel
