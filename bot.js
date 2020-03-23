@@ -77,8 +77,11 @@ client.on('message', message => {
     }
     if (isReady && command === 'horn') {
         isReady = false;
-        console.log(client.channels);
         var voiceChannel = message.member.voice.channel;
+        if(!voiceChannel) {
+            message.channel.send('You need to be in a voice channel to use this command!');
+            return;
+        }
         voiceChannel.join().then(connection => {
             //voiceChannel.leave();
             const dispatcher = connection.play('./sounds/mlg-airhorn.mp3', { volume: 0.3 });
@@ -90,6 +93,49 @@ client.on('message', message => {
         .catch(console.error);
         isReady = true;
     }
+    if (isReady && command === 'ohyeah') {
+        isReady = false;
+        var voiceChannel = message.member.voice.channel;
+        voiceChannel.join().then(connection => {
+            //voiceChannel.leave();
+            const dispatcher = connection.play('./sounds/ohyeah.mp3', { volume: 2.0 });
+            dispatcher.on("end", end => {
+                console.log('Ended');
+                voiceChannel.leave();
+            });
+        })
+        .catch(console.error);
+        isReady = true;
+    }
+    if (isReady && command === 'donkey') {
+        isReady = false;
+        var voiceChannel = message.member.voice.channel;
+        voiceChannel.join().then(connection => {
+            //voiceChannel.leave();
+            const dispatcher = connection.play('./sounds/donkey.mp3', { volume: 1.5 });
+            dispatcher.on("end", end => {
+                console.log('Ended');
+                voiceChannel.leave();
+            });
+        })
+        .catch(console.error);
+        isReady = true;
+    }
+    if (isReady && command === 'getover') {
+        isReady = false;
+        var voiceChannel = message.member.voice.channel;
+        voiceChannel.join().then(connection => {
+            //voiceChannel.leave();
+            const dispatcher = connection.play('./sounds/getover.mp3', { volume: 2.5 });
+            dispatcher.on("end", end => {
+                console.log('Ended');
+                voiceChannel.leave();
+            });
+        })
+        .catch(console.error);
+        isReady = true;
+    }
+    
 
     //botclean command: deletes all bot messages from the channel
     if (command == 'botclean') {
@@ -163,10 +209,6 @@ client.on('message', message => {
         }
         message.channel.bulkDelete(amount + 1);
     }
-
-    // if (message.content === 'Send emojis') {
-    //     console.log(`${message.guild.emojis}`);
-    // }
 });
 
 client.login(token);
