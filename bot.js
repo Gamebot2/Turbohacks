@@ -38,6 +38,9 @@ client.on('message', message => {
         commands.push("+botclean: Cleans all bot messages and commands from channel\n");
         commands.push("+prune {n}: Deletes the last n messages from the channel\n");
         commands.push("+horn: plays an airhorn sound in the voice channel\n");
+        commands.push("ohyeah: plays Vector saying 'Oh yeah' from Despicable Me\n");
+        commands.push("getover: plays the 'just gotta get over' voice clip\n");
+        commands.push("donkey: plays Gordan Ramsay saying the donkey clip\n");
 
         var commandString = "";
         for(i = 0; i < commands.length; i++) {

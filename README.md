@@ -28,3 +28,6 @@ Simply open a command prompt and run the command "node bot.js" to get the bot on
 * botclean: Cleans all bot messages and commands from the channel
 * prune {n}: Deletes the last n messages from the channel
 * horn: plays an airhorn sound in the voice channel
+* ohyeah: plays Vector saying "Oh yeah" from Despicable Me
+* getover: plays the "just gotta get over" voice clip
+* donkey: plays Gordan Ramsay saying the donkey clip
