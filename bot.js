@@ -147,7 +147,7 @@ client.on('message', message => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
             filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-") || m.content.startsWith('p!')).array();
             //console.log(filteredMessages[0]);
-            for(i = 0; i < filteredMessages.length; i++) {
+            for(i = 1; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
             }
             message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands with command '+botclean'.");
@@ -162,7 +162,7 @@ client.on('message', message => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
             filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")  || m.content.startsWith('p!')).array();
             //console.log(filteredMessages[0]);
-            for(i = 0; i < filteredMessages.length; i++) {
+            for(i = 1; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
             }
             message.channel.send("Deleted " + filteredMessages.length + " butt messages and commands with command '+buttclean'.");
