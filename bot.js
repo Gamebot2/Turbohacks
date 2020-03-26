@@ -145,7 +145,7 @@ client.on('message', message => {
         message.channel.messages.fetch()
           .then(messages => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")).array();
+            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-") || m.content.startsWith('p!')).array();
             //console.log(filteredMessages[0]);
             for(i = 0; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
@@ -160,7 +160,7 @@ client.on('message', message => {
         message.channel.messages.fetch()
           .then(messages => {
             console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")).array();
+            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")  || m.content.startsWith('p!')).array();
             //console.log(filteredMessages[0]);
             for(i = 0; i < filteredMessages.length; i++) {
                 filteredMessages[i].delete();
