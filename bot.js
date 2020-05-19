@@ -5,19 +5,20 @@ var isReady = true;
 
 client.once('ready', () => {
     console.log('Ready!');
+    client.user.setPresence({ activity: { name: "H&R Bot get completely annihilated", type: "WATCHING" }, status: "online" })
 });
 
 client.on('message', message => {
 
     //Shutting up the dad bot
-    if(message.author.username === 'Dad Bot') {
+    if (message.author.username === 'Dad Bot') {
         message.delete();
         message.channel.send(`Fuck off Margo I deleted your message`);
     }
 
     //Thirsty emoji auto-send
     if (message.content.includes("thirsty") || message.content.includes('Thirsty')) {
-    message.channel.send('<:Thirst:689204786083659776>');
+        message.channel.send('<:Thirst:689204786083659776>');
     }
 
     //Don't respond to any other bot messages
@@ -27,7 +28,7 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
 
     //Help command
-    if(command === 'help') {
+    if (command === 'help') {
 
         var commands = ["+noice: Sends a noice message\n"];
         commands.push("+server: Sends server information\n");
@@ -43,20 +44,22 @@ client.on('message', message => {
         commands.push("donkey: plays Gordan Ramsay saying the donkey clip\n");
 
         var commandString = "";
-        for(i = 0; i < commands.length; i++) {
+        for (i = 0; i < commands.length; i++) {
             commandString = commandString + commands[i];
         }
 
         //Create embed help explanation and send it
-        message.channel.send({embed: {
-          color: 0x999999,
-          title: "Turbohacks Help",
-          url: "https://www.github.com/Gamebot3/Turbohacks",
-          fields: [{
-            name: "Commands",
-            value: commandString
-          }],
-        }});    
+        message.channel.send({
+            embed: {
+                color: 0x999999,
+                title: "Turbohacks Help",
+                url: "https://www.github.com/Gamebot3/Turbohacks",
+                fields: [{
+                    name: "Commands",
+                    value: commandString
+                }],
+            }
+        });
     }
 
 
@@ -81,99 +84,98 @@ client.on('message', message => {
     if (isReady && command === 'horn') {
         isReady = false;
         var voiceChannel = message.member.voice.channel;
-        if(!voiceChannel) {
+        if (!voiceChannel) {
             message.channel.send('You need to be in a voice channel to use this command!');
             return;
         }
         voiceChannel.join().then(connection => {
-            //voiceChannel.leave();
-            const dispatcher = connection.play('./sounds/mlg-airhorn.mp3', { volume: 0.3 });
-            dispatcher.on("end", end => {
-                console.log('Ended');
-                voiceChannel.leave();
-            });
-        })
-        .catch(console.error);
+                //voiceChannel.leave();
+                const dispatcher = connection.play('./sounds/mlg-airhorn.mp3', { volume: 0.3 });
+                dispatcher.on("end", end => {
+                    console.log('Ended');
+                    voiceChannel.leave();
+                });
+            })
+            .catch(console.error);
         isReady = true;
     }
     if (isReady && command === 'ohyeah') {
         isReady = false;
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection => {
-            //voiceChannel.leave();
-            const dispatcher = connection.play('./sounds/ohyeah.mp3', { volume: 2.0 });
-            dispatcher.on("end", end => {
-                console.log('Ended');
-                voiceChannel.leave();
-            });
-        })
-        .catch(console.error);
+                //voiceChannel.leave();
+                const dispatcher = connection.play('./sounds/ohyeah.mp3', { volume: 2.0 });
+                dispatcher.on("end", end => {
+                    console.log('Ended');
+                    voiceChannel.leave();
+                });
+            })
+            .catch(console.error);
         isReady = true;
     }
     if (isReady && command === 'donkey') {
         isReady = false;
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection => {
-            //voiceChannel.leave();
-            const dispatcher = connection.play('./sounds/donkey.mp3', { volume: 1.5 });
-            dispatcher.on("end", end => {
-                console.log('Ended');
-                voiceChannel.leave();
-            });
-        })
-        .catch(console.error);
+                //voiceChannel.leave();
+                const dispatcher = connection.play('./sounds/donkey.mp3', { volume: 1.5 });
+                dispatcher.on("end", end => {
+                    console.log('Ended');
+                    voiceChannel.leave();
+                });
+            })
+            .catch(console.error);
         isReady = true;
     }
     if (isReady && command === 'getover') {
         isReady = false;
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection => {
-            //voiceChannel.leave();
-            const dispatcher = connection.play('./sounds/getover.mp3', { volume: 2.5 });
-            dispatcher.on("end", end => {
-                console.log('Ended');
-                voiceChannel.leave();
-            });
-        })
-        .catch(console.error);
+                //voiceChannel.leave();
+                const dispatcher = connection.play('./sounds/getover.mp3', { volume: 2.5 });
+                dispatcher.on("end", end => {
+                    console.log('Ended');
+                    voiceChannel.leave();
+                });
+            })
+            .catch(console.error);
         isReady = true;
     }
-    
+
 
     //botclean command: deletes all bot messages from the channel
     if (command == 'botclean') {
         message.channel.messages.fetch()
-          .then(messages => {
-            console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-") || m.content.startsWith('p!')).array();
-            //console.log(filteredMessages[0]);
-            for(i = 1; i < filteredMessages.length; i++) {
-                filteredMessages[i].delete();
-            }
-            message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands with command '+botclean'.");
-        })
-        .catch(console.error);
+            .then(messages => {
+                console.log(`${messages.filter(m => m.author.bot).size} messages`);
+                filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-") || m.content.startsWith('p!')).array();
+                //console.log(filteredMessages[0]);
+                for (i = 1; i < filteredMessages.length; i++) {
+                    filteredMessages[i].delete();
+                }
+                message.channel.send("Deleted " + filteredMessages.length + " bot messages and commands with command '+botclean'.");
+            })
+            .catch(console.error);
     }
 
     //buttclean: different way of doing botclean
     if (command == 'buttclean') {
         message.channel.messages.fetch()
-          .then(messages => {
-            console.log(`${messages.filter(m => m.author.bot).size} messages`);
-            filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-")  || m.content.startsWith('p!')).array();
-            //console.log(filteredMessages[0]);
-            for(i = 1; i < filteredMessages.length; i++) {
-                filteredMessages[i].delete();
-            }
-            message.channel.send("Deleted " + filteredMessages.length + " butt messages and commands with command '+buttclean'.");
-        })
-        .catch(console.error);
+            .then(messages => {
+                console.log(`${messages.filter(m => m.author.bot).size} messages`);
+                filteredMessages = messages.filter(m => m.author.bot || m.content.startsWith("!") || m.content.startsWith(`${prefix}`) || m.content.startsWith("-") || m.content.startsWith('p!')).array();
+                for (i = 1; i < filteredMessages.length; i++) {
+                    filteredMessages[i].delete();
+                }
+                message.channel.send("Deleted " + filteredMessages.length + " butt messages and commands with command '+buttclean'.");
+            })
+            .catch(console.error);
     }
 
     //Insult command: insults the mentioned user
     if (command === 'insult') {
 
-        if(!message.mentions.users.size) {
+        if (!message.mentions.users.size) {
             return message.channel.send('Insult whom?');
         }
         var insults = ["You're slow."];
@@ -203,9 +205,9 @@ client.on('message', message => {
     }
 
     //Prune command (deletes the last n messages from the channel)
-    if(command === 'prune') {
+    if (command === 'prune') {
         var amount = parseInt(args[0]);
-        if(isNaN(amount)) {
+        if (isNaN(amount)) {
             return message.reply('That isn\'t a valid number moron.');
         } else if (amount < 2 || amount > 100) {
             return message.reply('Make sure the number you enter is between 2 and 100.');
