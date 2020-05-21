@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const { prefix, token } = require('./config.json');
+const AWS = require('aws-sdk')
+const Fs = require('fs')
+
+
 var isReady = true;
 
 client.once('ready', () => {
@@ -34,7 +38,22 @@ client.on('message', async message => {
         "nice": 1.25,
         "mmm": 0.5,
         "homie": 1.0,
-        "shia": 0.75
+        "shia": 0.75,
+        "cena": 0.65,
+        "sax": 0.5
+    }
+
+    var jokeCommands = ["ligma", "sugma", "tugondese", "sugondese", "tugondeez", "ligmuh", "tugma", "chocondese"];
+    for (var i = 0; i < jokeCommands.length; i++) {
+        joke = jokeCommands[i];
+        if (message.content.toLowerCase().includes(joke)) {
+            message.channel.send(joke + " NUTS!");
+            return;
+        }
+    }
+
+    if (message.content.substring(0, 1) != "=") {
+        return;
     }
 
     //Help command
@@ -50,6 +69,7 @@ client.on('message', async message => {
         textCommands.push("=prune {n}: Deletes the last n messages from the channel\n");
 
         var voiceCommands = [];
+        voiceCommands.push("=say: Says whatever you type in the voice channel you're in\n");
         voiceCommands.push("=coffin: plays coffin dance\n");
         voiceCommands.push("=psy: Plays a gangnam style soundbyte\n");
         voiceCommands.push("=sparta: This is Sparta!\n");
@@ -57,6 +77,8 @@ client.on('message', async message => {
         voiceCommands.push("=mmm: mmm whatcha say\n");
         voiceCommands.push("=homie: I GOTCHU HOMIE\n");
         voiceCommands.push("=shia: JUST DO IT\n");
+        voiceCommands.push("=cena: And his name is John Cena\n");
+        voiceCommands.push("=sax: Sexy saxophone\n");
 
 
         var textCommandString = textCommands.join('');
@@ -173,6 +195,58 @@ client.on('message', async message => {
             return message.reply('Make sure the number you enter is between 2 and 100.');
         }
         message.channel.bulkDelete(amount + 1);
+    }
+
+    //Say command: Converts text to speech and plays in voice channel
+    if (command === 'say') {
+
+        var voiceString = "";
+        if (args.length > 0) {
+            voiceString = args.join(' ');
+        } else {
+            voiceString = "Hello World";
+        }
+
+        var voiceChannel = message.member.voice.channel;
+        if (!voiceChannel) {
+            message.channel.send('You need to be in a voice channel to use this command!');
+            return;
+        }
+
+        const Polly = new AWS.Polly({
+            signatureVersion: 'v4',
+            region: 'us-east-1'
+        })
+
+        let params = {
+            'Text': voiceString,
+            'OutputFormat': 'mp3',
+            'VoiceId': 'Nicole'
+        }
+
+        Polly.synthesizeSpeech(params, (err, data) => {
+            if (err) {
+                console.log(err.code);
+            } else if (data) {
+                if (data.AudioStream instanceof Buffer) {
+                    Fs.writeFile("./sounds/speech.mp3", data.AudioStream, function(err) {
+                        if (err) {
+                            return console.log(err)
+                        }
+
+                        //Begin actually playing the file to Discord
+                        voiceChannel.join().then(connection => {
+                                var playString = './sounds/speech.mp3';
+                                const dispatcher = connection.play(playString, { volume: voiceInfo[command] });
+                                dispatcher.on("finish", () => {
+                                    voiceChannel.leave();
+                                });
+                            })
+                            .catch(console.error);
+                    })
+                }
+            }
+        })
     }
 });
 
