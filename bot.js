@@ -239,7 +239,8 @@ client.on('message', async message => {
         } else {
             voiceId = voiceMap[id];
             if(!voiceId) {
-                voiceMap[id] = "Brian"
+                var voiceArray = Object.keys(voiceNameMap);
+                voiceMap[id] = voiceArray[Math.floor(Math.random()*voiceArray.length)];
             } 
             message.reply("Your current voice is " + voiceMap[id]);
         }
@@ -277,7 +278,8 @@ client.on('message', async message => {
             voiceId = voiceMap[id];
         } else {
             //ID not in the voice Map
-            voiceMap[id] = "Brian";
+            var voiceArray = Object.keys(voiceNameMap);
+            voiceMap[id] = voiceArray[Math.floor(Math.random()*voiceArray.length)];
         }
 
         var voiceString = "";

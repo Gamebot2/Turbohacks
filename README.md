@@ -8,7 +8,7 @@ Add a file called config.json in the top level folder with the following format:
 
 ``` json
 {
-	"prefix": "!",
+	"prefix": "=",
 	"token": "Token Here"
 }
 ```
@@ -18,6 +18,8 @@ If you want the token, either text or email me. Replace the "Token here" with th
 Simply open a command prompt and run the command "node bot.js" to get the bot online.
 
 # Command List
+
+## Text Commands
 * help: Gets this command list
 * noice: Sends a noice message and an emoji with it
 * server: Returns server and member information
@@ -27,7 +29,22 @@ Simply open a command prompt and run the command "node bot.js" to get the bot on
 * insult @user: Insults the mentioned user
 * botclean: Cleans all bot messages and commands from the channel
 * prune {n}: Deletes the last n messages from the channel
-* horn: plays an airhorn sound in the voice channel
-* ohyeah: plays Vector saying "Oh yeah" from Despicable Me
-* getover: plays the "just gotta get over" voice clip
-* donkey: plays Gordan Ramsay saying the donkey clip
+
+
+## Voice Commands
+* coffin: Plays the coffin dance song
+* psy: Plays gangnam style excerpt
+* sparta: Plays "This is Sparta!"
+* nice: Plays the *click* nice sound bite
+* mmm: Plays mmm whatcha say
+* homie: Plays 'I gotchu homie'
+* shia: JUST DO IT
+* cena: Exactly what you think it does
+* sax: Plays sexy saxophone sound
+
+## Say Commands
+* voice: Tells you the voice you are currently registered to
+* voice <name>: Switches your voice to the provided name
+* voices: Shows the list of available voices and accents
+* say <text>: Says provided text in a voice channel
+
