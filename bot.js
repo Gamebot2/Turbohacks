@@ -7,6 +7,8 @@ const Fs = require('fs')
 
 var isReady = true;
 
+var voiceMap = {}
+
 client.once('ready', () => {
     console.log('Ready!');
     client.user.setPresence({ activity: { name: "H&R Bot suck my dick", type: "WATCHING" }, status: "online" })
@@ -69,7 +71,6 @@ client.on('message', async message => {
         textCommands.push("=prune {n}: Deletes the last n messages from the channel\n");
 
         var voiceCommands = [];
-        voiceCommands.push("=say: Says whatever you type in the voice channel you're in\n");
         voiceCommands.push("=coffin: plays coffin dance\n");
         voiceCommands.push("=psy: Plays a gangnam style soundbyte\n");
         voiceCommands.push("=sparta: This is Sparta!\n");
@@ -80,9 +81,17 @@ client.on('message', async message => {
         voiceCommands.push("=cena: And his name is John Cena\n");
         voiceCommands.push("=sax: Sexy saxophone\n");
 
+        var sayCommands = [];
+        sayCommands.push("=voice: Tells you which voice you currently have\n");
+        sayCommands.push("=voice <name>: Sets your personal voice\n");
+        sayCommands.push("=voices: Shows a list of available voices\n");
+        sayCommands.push("=say <text>: Says text in whatever voice channel you're in\n");
+
+
 
         var textCommandString = textCommands.join('');
-        var voiceCommandString = voiceCommands.join('')
+        var voiceCommandString = voiceCommands.join('');
+        var sayCommandString = sayCommands.join('');
 
         //Create embed help explanation and send it
         message.channel.send({
@@ -96,6 +105,9 @@ client.on('message', async message => {
                 }, {
                     name: "Voice Commands",
                     value: voiceCommandString
+                }, {
+                    name: "Custom Say Commands",
+                    value: sayCommandString
                 }],
             }
         });
@@ -197,8 +209,76 @@ client.on('message', async message => {
         message.channel.bulkDelete(amount + 1);
     }
 
+    var voiceNameMap = {
+        "Nicole": "Australian Female",
+        "Russell": "Austalian Male",
+        "Amy": "British Female 1",
+        "Emma": "British Female 2",
+        "Brian": "British Male",
+        "Aditi": "Indian Female 1",
+        "Raveena": "Indian Female 2",
+        "Ivy": "American Female Child",
+        "Joanna": "American Female 1",
+        "Kimberly": "American Female 2",
+        "Justin": "American Male Child",
+        "Joey": "American Male 1",
+        "Matthew": "American Male 2"
+    }
+
+    //Voice command: Changes the user's voice
+    if (command == "voice") {
+        var id = message.author.id;
+        if(args.length > 0) {
+            voiceId = args[0];
+            if(Object.keys(voiceNameMap).includes(voiceId)) {
+                voiceMap[id] = voiceId;
+                message.reply("Changed your voice to " + voiceId + "!");
+            } else {
+                message.reply("Not a valid voice: use =voices to see valid voices.");
+            }
+        } else {
+            voiceId = voiceMap[id];
+            if(!voiceId) {
+                voiceMap[id] = "Brian"
+            } 
+            message.reply("Your current voice is " + voiceMap[id]);
+        }
+    }
+
+    //Voices command: Displays all possible voices
+    if (command === "voices") {
+        var voices = Object.keys(voiceNameMap);
+        var voicesString = "";
+        for(var i = 0; i < voices.length; i++) {
+            voicesString += voices[i] + ": " + voiceNameMap[voices[i]] + "\n";
+        }   
+
+
+        //Create embed help explanation and send it
+        message.channel.send({
+            embed: {
+                color: 0x999999,
+                title: "Turbohacks Help",
+                url: "https://www.github.com/Gamebot3/Turbohacks",
+                fields: [{
+                    name: "Available Voices",
+                    value: voicesString
+                }],
+            }
+        });
+    }
+
     //Say command: Converts text to speech and plays in voice channel
     if (command === 'say') {
+        var id = message.author.id;
+        var voiceId = "Brian";
+        if(Object.keys(voiceMap).includes(id)) {
+            //ID is in the voice Map
+            voiceId = voiceMap[id];
+        } else {
+            //ID not in the voice Map
+            voiceMap[id] = "Brian";
+        }
 
         var voiceString = "";
         if (args.length > 0) {
@@ -221,7 +301,7 @@ client.on('message', async message => {
         let params = {
             'Text': voiceString,
             'OutputFormat': 'mp3',
-            'VoiceId': 'Nicole'
+            'VoiceId': voiceId
         }
 
         Polly.synthesizeSpeech(params, (err, data) => {
