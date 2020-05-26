@@ -46,7 +46,7 @@ Simply open a command prompt and run the command "node bot.js" to get the bot on
 
 ## Say Commands
 * voice: Tells you the voice you are currently registered to
-* voice <name>: Switches your voice to the provided name
+* voice {name}: Switches your voice to the provided name
 * voices: Shows the list of available voices and accents
-* say <text>: Says provided text in a voice channel
+* say {text}: Says provided text in a voice channel
 
