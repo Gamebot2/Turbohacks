@@ -9,7 +9,9 @@ Add a file called config.json in the top level folder with the following format:
 ``` json
 {
 	"prefix": "=",
-	"token": "Token Here"
+	"token": "Token Here",
+	"status": "Status here",
+	"statusType": "Status type here"
 }
 ```
 

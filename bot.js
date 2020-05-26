@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const { prefix, token } = require('./config.json');
+const { prefix, token, status, statusType } = require('./config.json');
 const AWS = require('aws-sdk')
 const Fs = require('fs')
 
@@ -11,7 +11,7 @@ var voiceMap = {}
 
 client.once('ready', () => {
     console.log('Ready!');
-    client.user.setPresence({ activity: { name: "H&R Bot suck my dick", type: "WATCHING" }, status: "online" })
+    client.user.setPresence({ activity: { name: status, type: statusType }, status: "online" })
 });
 
 client.on('message', async message => {
@@ -33,7 +33,7 @@ client.on('message', async message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    var voiceInfo = {
+    var soundInfo = {
         "coffin": 0.25,
         "psy": 0.5,
         "sparta": 1.2,
@@ -42,7 +42,8 @@ client.on('message', async message => {
         "homie": 1.0,
         "shia": 0.75,
         "cena": 0.65,
-        "sax": 0.5
+        "sax": 0.5,
+        "headshot": 0.75
     }
 
     var jokeCommands = ["ligma", "sugma", "tugondese", "sugondese", "tugondeez", "ligmuh", "tugma", "chocondese"];
@@ -80,6 +81,7 @@ client.on('message', async message => {
         voiceCommands.push("=shia: JUST DO IT\n");
         voiceCommands.push("=cena: And his name is John Cena\n");
         voiceCommands.push("=sax: Sexy saxophone\n");
+        voiceCommands.push("=headshot: Boom headshot!\n");
 
         var sayCommands = [];
         sayCommands.push("=voice: Tells you which voice you currently have\n");
@@ -138,7 +140,7 @@ client.on('message', async message => {
     }
 
     //Voice play commands
-    if (Object.keys(voiceInfo).includes(command)) {
+    if (Object.keys(soundInfo).includes(command)) {
         var voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
             message.channel.send('You need to be in a voice channel to use this command!');
@@ -146,7 +148,7 @@ client.on('message', async message => {
         }
         voiceChannel.join().then(connection => {
                 var playString = './sounds/' + command + '.mp3';
-                const dispatcher = connection.play(playString, { volume: voiceInfo[command] });
+                const dispatcher = connection.play(playString, { volume: soundInfo[command] });
                 dispatcher.on("finish", () => {
                     voiceChannel.leave();
                 });
@@ -228,9 +230,9 @@ client.on('message', async message => {
     //Voice command: Changes the user's voice
     if (command == "voice") {
         var id = message.author.id;
-        if(args.length > 0) {
+        if (args.length > 0) {
             voiceId = args[0];
-            if(Object.keys(voiceNameMap).includes(voiceId)) {
+            if (Object.keys(voiceNameMap).includes(voiceId)) {
                 voiceMap[id] = voiceId;
                 message.reply("Changed your voice to " + voiceId + "!");
             } else {
@@ -238,10 +240,10 @@ client.on('message', async message => {
             }
         } else {
             voiceId = voiceMap[id];
-            if(!voiceId) {
+            if (!voiceId) {
                 var voiceArray = Object.keys(voiceNameMap);
-                voiceMap[id] = voiceArray[Math.floor(Math.random()*voiceArray.length)];
-            } 
+                voiceMap[id] = voiceArray[Math.floor(Math.random() * voiceArray.length)];
+            }
             message.reply("Your current voice is " + voiceMap[id]);
         }
     }
@@ -250,9 +252,9 @@ client.on('message', async message => {
     if (command === "voices") {
         var voices = Object.keys(voiceNameMap);
         var voicesString = "";
-        for(var i = 0; i < voices.length; i++) {
+        for (var i = 0; i < voices.length; i++) {
             voicesString += voices[i] + ": " + voiceNameMap[voices[i]] + "\n";
-        }   
+        }
 
 
         //Create embed help explanation and send it
@@ -273,13 +275,13 @@ client.on('message', async message => {
     if (command === 'say') {
         var id = message.author.id;
         var voiceId = "Brian";
-        if(Object.keys(voiceMap).includes(id)) {
+        if (Object.keys(voiceMap).includes(id)) {
             //ID is in the voice Map
             voiceId = voiceMap[id];
         } else {
             //ID not in the voice Map
             var voiceArray = Object.keys(voiceNameMap);
-            voiceMap[id] = voiceArray[Math.floor(Math.random()*voiceArray.length)];
+            voiceMap[id] = voiceArray[Math.floor(Math.random() * voiceArray.length)];
         }
 
         var voiceString = "";
@@ -319,9 +321,9 @@ client.on('message', async message => {
                         //Begin actually playing the file to Discord
                         voiceChannel.join().then(connection => {
                                 var playString = './sounds/speech.mp3';
-                                const dispatcher = connection.play(playString, { volume: voiceInfo[command] });
+                                const dispatcher = connection.play(playString, { volume: soundInfo[command] });
                                 dispatcher.on("finish", () => {
-                                    voiceChannel.leave();
+                                    setTimeout(function() { voiceChannel.leave() }, 1000);
                                 });
                             })
                             .catch(console.error);
