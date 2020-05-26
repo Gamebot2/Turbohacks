@@ -43,6 +43,7 @@ Simply open a command prompt and run the command "node bot.js" to get the bot on
 * shia: JUST DO IT
 * cena: Exactly what you think it does
 * sax: Plays sexy saxophone sound
+* headshot: Plays boom headshot sound bite
 
 ## Say Commands
 * voice: Tells you the voice you are currently registered to
