@@ -2,7 +2,7 @@
 Discord bot of legend
 
 # How to run
-Make sure you have node and npm installed. Clone the repostiory and run "npm install" to get all the dependencies and stuff.
+Make sure you have node and npm installed. Clone the repository and run "npm install" to get all the dependencies and stuff.
 
 Add a file called config.json in the top level folder with the following format: 
 
